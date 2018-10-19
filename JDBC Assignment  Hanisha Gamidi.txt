@@ -1,0 +1,176 @@
+-------------------------------------------------------------------------------------
+
+Calling Stored Procedure
+
+
+import java.sql.*;  
+public class StoredProcedureDemo {  
+public static void main(String[] args) throws Exception{  
+         Class.forName("com.mysql.jdbc.Driver");  
+         Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hanisha","root","Capgemini123");  
+         CallableStatement stmt=con.prepareCall("{call insertR(?,?)}");     
+         stmt.setInt(1,105);  
+         stmt.setString(2,"Hanisha");  
+         stmt.execute();  
+         System.out.println("success");  
+       }  
+}  
+
+-------------------------------------------------------------------------------------
+
+Buffered Reader
+
+
+import java.io.IOException;
+    import java.io.FileWriter;
+    import java.io.BufferedWriter;
+    import java.io.FileReader;
+    import java.io.BufferedReader;
+    public class BufferDemo {
+        public static void main(String[] args) {
+            try
+            {
+               
+                FileWriter fw = new
+                        FileWriter("C:\\Hanisha\\hanisha.txt");
+                BufferedWriter WriteFileBuffer = new
+                        BufferedWriter(fw);
+     
+                WriteFileBuffer.write("I");
+                WriteFileBuffer.newLine();
+                WriteFileBuffer.write("am");
+                WriteFileBuffer.newLine();
+                WriteFileBuffer.write("Hanisha"+ "");
+                WriteFileBuffer.newLine();
+     
+                WriteFileBuffer.close();
+                FileReader fr = new FileReader("C:\\Hanisha\\hanisha.txt");
+                BufferedReader ReadFileBuffer = new BufferedReader(fr);
+                System.out.println(ReadFileBuffer.readLine());
+                System.out.println(ReadFileBuffer.readLine());
+                System.out.println(ReadFileBuffer.readLine());
+               
+                ReadFileBuffer.close();
+     
+            } catch (IOException Ex)
+            {
+                System.out.println(Ex.getMessage());
+            }
+        }
+    }
+--------------------------------------------------------------------------------
+File Reader
+
+
+import java.io.File;
+import java.io.FileReader;
+public class FileReaderDemo {
+
+	public static void main(String[] args) {
+		File file = null;
+		FileReader reader = null;
+		try {
+			file = new File("C:/Hanisha/hanishagamidi.txt");
+			reader = new FileReader(file);
+			int i;
+			while ((i=reader.read())!= -1) {
+				System.out.print((char)i);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+}
+
+--------------------------------------------------------------------------------
+File Writer
+
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+public class FileWriterDemo {
+	public static void main(String[] args) {
+		String name = "Durga Hanisha";
+		int age = 55;
+		FileWriter fw;
+		try {
+			fw = new FileWriter(new File("C:\\Hanisha\\hanisha55.txt"));
+			
+			fw.write(String.format("My name is %s.",name));
+			fw.write(System.lineSeparator()); //new line
+			fw.write(String.format("I am %d years old.",age));
+			fw.write(System.lineSeparator()); //new line
+			fw.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		System.out.println("Done");
+		
+	}
+
+}
+----------------------------------------------------------------------------------
+
+Transaction
+
+
+
+import java.sql.*;  
+import java.io.*;  
+class TransactionDemo{  
+public static void main(String args[]){  
+    try{  
+         Class.forName("com.mysql.jdbc.Driver");  
+         Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hanisha","root","Capgemini123");  
+         con.setAutoCommit(false);  
+         PreparedStatement ps=con.prepareStatement("insert into employee values(?,?)");  
+         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));  
+         while(true){  
+              System.out.println("enter id");  
+              String s1=br.readLine();  
+              int id=Integer.parseInt(s1);  
+              System.out.println("enter name");  
+              String name=br.readLine();  
+              ps.setInt(1,id);  
+              ps.setString(2,name);   
+              ps.executeUpdate();  
+              System.out.println("commit/rollback");  
+              String answer=br.readLine();  
+              if(answer.equals("commit"))
+              {  
+               con.commit();  
+               }  
+              if(answer.equals("rollback"))
+              {  
+               con.rollback();   
+              }  
+              System.out.println("Want to add more records y/n");  
+              String ans=br.readLine();  
+              if(ans.equals("n"))
+              {  
+               break;  
+              }  
+            }  
+         con.commit();  
+         System.out.println("record successfully saved");  
+           
+         con.close();
+      catch(Exception e){
+    	  System.out.println(e);
+      }
+    } 
+ }
+}
+
+-------------------------------------------------------------------------------------------
+
